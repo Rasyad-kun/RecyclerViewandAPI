@@ -18,6 +18,18 @@ public class LocalAdapter extends RecyclerView.Adapter<LocalAdapter.LocalViewHol
     private Context mContext;
     private ArrayList<Model> mLocalList;
 
+    //Detail Activity / Callback / OnItemClickListener
+    private OnItemClickListener mListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
+    }
+
+    //RecyclerView
     public LocalAdapter(Context context, ArrayList<Model> localList) {
         this.mContext = context;
         this.mLocalList = localList;
@@ -33,7 +45,7 @@ public class LocalAdapter extends RecyclerView.Adapter<LocalAdapter.LocalViewHol
     @Override
     public void onBindViewHolder(@NonNull LocalViewHolder holder, int position) {
         holder.mTextViewTitle.setText(mLocalList.get(position).getmTitle());
-        holder.mTextviewGenre.setText(mLocalList.get(position).getmGenre());
+        holder.mTextviewGenre.setText("Genre : " + mLocalList.get(position).getmGenre());
         Picasso.get()
                 .load(mLocalList.get(position).getmImage())
                 .fit()
@@ -57,6 +69,19 @@ public class LocalAdapter extends RecyclerView.Adapter<LocalAdapter.LocalViewHol
             mTextViewTitle = itemView.findViewById(R.id.text_title);
             mTextviewGenre = itemView.findViewById(R.id.text_genre);
             mImageView = itemView.findViewById(R.id.image_view);
+
+            //Detail Activity / Callback / OnItemClickListener
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mListener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            mListener.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 

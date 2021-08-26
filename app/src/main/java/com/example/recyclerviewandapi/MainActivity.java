@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,7 +20,13 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LocalAdapter.OnItemClickListener {
+    //Detail Activity / Callback / OnItemClickListener
+    public static final String EXTRA_TITLE = "title";
+    public static final String EXTRA_DESC = "desc";
+    public static final String EXTRA_GENRE = "genre";
+    public static final String EXTRA_IMAGE = "image";
+
     private RecyclerView mRecyclerView;
     private LocalAdapter mLocalAdapter;
     private ArrayList<Model> mLocalList;
@@ -29,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().setTitle("Movie List");
 
         progressBar = findViewById(R.id.progress_bar);
         mRecyclerView = findViewById(R.id.recycler_view);
@@ -63,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
                             mLocalAdapter = new LocalAdapter(MainActivity.this, mLocalList);
                             mRecyclerView.setAdapter(mLocalAdapter);
+                            mLocalAdapter.setOnItemClickListener(MainActivity.this); //Detail Activity / Callback / OnItemClickListener
 
                             progressBar.setVisibility(View.GONE);
 
@@ -77,5 +86,19 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    //Detail Activity / Callback / OnItemClickListener
+    @Override
+    public void onItemClick(int position) {
+        Intent detailIntent = new Intent(this, DetailRow.class);
+        Model clickedRow = mLocalList.get(position);
+
+        detailIntent.putExtra(EXTRA_TITLE, clickedRow.getmTitle());
+        detailIntent.putExtra(EXTRA_DESC, clickedRow.getmDesc());
+        detailIntent.putExtra(EXTRA_GENRE, clickedRow.getmGenre());
+        detailIntent.putExtra(EXTRA_IMAGE, clickedRow.getmImage());
+
+        startActivity(detailIntent);
     }
 }
