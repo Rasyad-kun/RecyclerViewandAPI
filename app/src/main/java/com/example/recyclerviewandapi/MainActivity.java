@@ -21,11 +21,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements LocalAdapter.OnItemClickListener {
-    //Detail Activity / Callback / OnItemClickListener
-    public static final String EXTRA_TITLE = "title";
-    public static final String EXTRA_DESC = "desc";
-    public static final String EXTRA_GENRE = "genre";
-    public static final String EXTRA_IMAGE = "image";
 
     private RecyclerView mRecyclerView;
     private LocalAdapter mLocalAdapter;
@@ -36,12 +31,12 @@ public class MainActivity extends AppCompatActivity implements LocalAdapter.OnIt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportActionBar().setTitle("Movie List");
+        setTitle("Movie List");
 
         progressBar = findViewById(R.id.progress_bar);
         mRecyclerView = findViewById(R.id.recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        mRecyclerView.setHasFixedSize(true);
+//        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         mLocalList = new ArrayList<>();
 
@@ -63,21 +58,36 @@ public class MainActivity extends AppCompatActivity implements LocalAdapter.OnIt
 
                                 String title = result.getString("title");
                                 String image = result.getString("thumbnailPotrait");
+                                String rating = result.getString("rating");
                                 String desc = result.getJSONObject("detail").getString("description");
                                 String genre = result.getJSONObject("detail").getString("genre");
+                                String release = result.getJSONObject("detail").getString("release");
+                                String actors = result.getJSONObject("detail").getString("actors");
+                                String director = result.getJSONObject("detail").getString("director");
+                                String country = result.getJSONObject("detail").getString("country");
 
-                                mLocalList.add(new Model(title, desc, genre, image));
+
+                                mLocalList.add(new Model(title, desc, genre, image, release, actors, director, country, rating));
                             }
 
-                            mLocalAdapter = new LocalAdapter(MainActivity.this, mLocalList);
-                            mRecyclerView.setAdapter(mLocalAdapter);
-                            mLocalAdapter.setOnItemClickListener(MainActivity.this); //Detail Activity / Callback / OnItemClickListener
+//                            mLocalAdapter = new LocalAdapter(MainActivity.this, mLocalList);
+//                            mRecyclerView.setAdapter(mLocalAdapter);
+//                            mLocalAdapter.setOnItemClickListener(MainActivity.this); //Detail Activity / Callback / OnItemClickListener
 
-                            progressBar.setVisibility(View.GONE);
+//                            progressBar.setVisibility(View.GONE);
 
                         } catch (JSONException e) {
                             Log.d("error", e.toString());
                         }
+
+                        mRecyclerView.setHasFixedSize(true);
+                        mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext())); //*
+                        mLocalAdapter = new LocalAdapter(MainActivity.this, mLocalList); //*
+                        mRecyclerView.setAdapter(mLocalAdapter); //*
+                        mLocalAdapter.setOnItemClickListener(MainActivity.this); //Detail Activity / Callback / OnItemClickListener
+                        mLocalAdapter.notifyDataSetChanged();
+
+                        progressBar.setVisibility(View.GONE);
                     }
 
                     @Override
@@ -89,6 +99,15 @@ public class MainActivity extends AppCompatActivity implements LocalAdapter.OnIt
     }
 
     //Detail Activity / Callback / OnItemClickListener
+    public static final String EXTRA_TITLE = "title";
+    public static final String EXTRA_DESC = "desc";
+    public static final String EXTRA_GENRE = "genre";
+    public static final String EXTRA_IMAGE = "image";
+    public static final String EXTRA_RELEASE = "release";
+    public static final String EXTRA_ACTORS = "actors";
+    public static final String EXTRA_DIRECTOR = "director";
+    public static final String EXTRA_COUNTRY = "country";
+    public static final String EXTRA_RATING = "rating";
     @Override
     public void onItemClick(int position) {
         Intent detailIntent = new Intent(this, DetailRow.class);
@@ -98,6 +117,11 @@ public class MainActivity extends AppCompatActivity implements LocalAdapter.OnIt
         detailIntent.putExtra(EXTRA_DESC, clickedRow.getmDesc());
         detailIntent.putExtra(EXTRA_GENRE, clickedRow.getmGenre());
         detailIntent.putExtra(EXTRA_IMAGE, clickedRow.getmImage());
+        detailIntent.putExtra(EXTRA_RELEASE, clickedRow.getmRelease());
+        detailIntent.putExtra(EXTRA_ACTORS, clickedRow.getmActors());
+        detailIntent.putExtra(EXTRA_DIRECTOR, clickedRow.getmDirector());
+        detailIntent.putExtra(EXTRA_COUNTRY, clickedRow.getmCountry());
+        detailIntent.putExtra(EXTRA_RATING, clickedRow.getmRating());
 
         startActivity(detailIntent);
     }
