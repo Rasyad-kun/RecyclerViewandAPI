@@ -1,6 +1,7 @@
 package com.example.recyclerviewandapi;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,10 +36,6 @@ public class MainActivity extends AppCompatActivity implements LocalAdapter.OnIt
 
         progressBar = findViewById(R.id.progress_bar);
         mRecyclerView = findViewById(R.id.recycler_view);
-//        mRecyclerView.setHasFixedSize(true);
-//        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        mLocalList = new ArrayList<>();
 
         AddData();
     }
@@ -51,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements LocalAdapter.OnIt
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+                            mLocalList = new ArrayList<>();
                             JSONArray jsonArray = response.getJSONArray("result");
 
                             for (int i = 0; i < jsonArray.length(); i++) {
@@ -69,12 +67,6 @@ public class MainActivity extends AppCompatActivity implements LocalAdapter.OnIt
 
                                 mLocalList.add(new Model(title, desc, genre, image, release, actors, director, country, rating));
                             }
-
-//                            mLocalAdapter = new LocalAdapter(MainActivity.this, mLocalList);
-//                            mRecyclerView.setAdapter(mLocalAdapter);
-//                            mLocalAdapter.setOnItemClickListener(MainActivity.this); //Detail Activity / Callback / OnItemClickListener
-
-//                            progressBar.setVisibility(View.GONE);
 
                         } catch (JSONException e) {
                             Log.d("error", e.toString());

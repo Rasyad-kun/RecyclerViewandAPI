@@ -53,12 +53,12 @@ public class DetailRow extends AppCompatActivity {
                 .into(imageView);
         textViewTitle.setText(title);
         textViewDesc.setText("Genre : " + genre +
-                "\nDirector : " + director +
-                "\nActors : " + actors +
-                "\nCountry : " + country +
-                "\nRelease : " + release +
-                "\nRating : " + rating +
-                "\nSinopsis : " + desc);
+                "\n\nDirector : " + director +
+                "\n\nActors : " + actors +
+                "\n\nCountry : " + country +
+                "\n\nRelease : " + release +
+                "\n\nRating : " + rating +
+                "\n\nSinopsis : " + desc);
 
         progressBar.setVisibility(View.GONE);
 
