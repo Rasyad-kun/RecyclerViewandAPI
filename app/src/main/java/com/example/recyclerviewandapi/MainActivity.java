@@ -53,19 +53,19 @@ public class MainActivity extends AppCompatActivity implements LocalAdapter.OnIt
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject result = jsonArray.getJSONObject(i);
-
                                 String title = result.getString("title");
                                 String image = result.getString("thumbnailPotrait");
                                 String rating = result.getString("rating");
-                                String desc = result.getJSONObject("detail").getString("description");
-                                String genre = result.getJSONObject("detail").getString("genre");
-                                String release = result.getJSONObject("detail").getString("release");
-                                String actors = result.getJSONObject("detail").getString("actors");
-                                String director = result.getJSONObject("detail").getString("director");
-                                String country = result.getJSONObject("detail").getString("country");
+                                JSONObject detail = result.getJSONObject("detail");
+                                String desc = detail.getString("description");
+                                String genre = detail.getString("genre");
+                                String release = detail.getString("release");
+                                String actors = detail.getString("actors");
+                                String director = detail.getString("director");
+                                String country = detail.getString("country");
+                                String imageLand = detail.getString("thumbnailLandscape");
 
-
-                                mLocalList.add(new Model(title, desc, genre, image, release, actors, director, country, rating));
+                                mLocalList.add(new Model(title, desc, genre, image, release, actors, director, country, rating, imageLand));
                             }
 
                         } catch (JSONException e) {
@@ -91,29 +91,30 @@ public class MainActivity extends AppCompatActivity implements LocalAdapter.OnIt
     }
 
     //Detail Activity / Callback / OnItemClickListener
-    public static final String EXTRA_TITLE = "title";
-    public static final String EXTRA_DESC = "desc";
-    public static final String EXTRA_GENRE = "genre";
-    public static final String EXTRA_IMAGE = "image";
-    public static final String EXTRA_RELEASE = "release";
-    public static final String EXTRA_ACTORS = "actors";
-    public static final String EXTRA_DIRECTOR = "director";
-    public static final String EXTRA_COUNTRY = "country";
-    public static final String EXTRA_RATING = "rating";
+//    public static final String EXTRA_TITLE = "title";
+//    public static final String EXTRA_DESC = "desc";
+//    public static final String EXTRA_GENRE = "genre";
+//    public static final String EXTRA_IMAGE = "image";
+//    public static final String EXTRA_RELEASE = "release";
+//    public static final String EXTRA_ACTORS = "actors";
+//    public static final String EXTRA_DIRECTOR = "director";
+//    public static final String EXTRA_COUNTRY = "country";
+//    public static final String EXTRA_RATING = "rating";
     @Override
     public void onItemClick(int position) {
         Intent detailIntent = new Intent(this, DetailRow.class);
         Model clickedRow = mLocalList.get(position);
 
-        detailIntent.putExtra(EXTRA_TITLE, clickedRow.getmTitle());
-        detailIntent.putExtra(EXTRA_DESC, clickedRow.getmDesc());
-        detailIntent.putExtra(EXTRA_GENRE, clickedRow.getmGenre());
-        detailIntent.putExtra(EXTRA_IMAGE, clickedRow.getmImage());
-        detailIntent.putExtra(EXTRA_RELEASE, clickedRow.getmRelease());
-        detailIntent.putExtra(EXTRA_ACTORS, clickedRow.getmActors());
-        detailIntent.putExtra(EXTRA_DIRECTOR, clickedRow.getmDirector());
-        detailIntent.putExtra(EXTRA_COUNTRY, clickedRow.getmCountry());
-        detailIntent.putExtra(EXTRA_RATING, clickedRow.getmRating());
+        detailIntent.putExtra("title", clickedRow.getmTitle());
+        detailIntent.putExtra("desc", clickedRow.getmDesc());
+        detailIntent.putExtra("genre", clickedRow.getmGenre());
+        detailIntent.putExtra("image", clickedRow.getmImage());
+        detailIntent.putExtra("release", clickedRow.getmRelease());
+        detailIntent.putExtra("actors", clickedRow.getmActors());
+        detailIntent.putExtra("director", clickedRow.getmDirector());
+        detailIntent.putExtra("country", clickedRow.getmCountry());
+        detailIntent.putExtra("rating", clickedRow.getmRating());
+        detailIntent.putExtra("imageLand", clickedRow.getmImageLand());
 
         startActivity(detailIntent);
     }

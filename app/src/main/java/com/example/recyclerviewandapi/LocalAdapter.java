@@ -67,7 +67,7 @@ public class LocalAdapter extends RecyclerView.Adapter<LocalAdapter.LocalViewHol
     }
 
     public class LocalViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
-        public TextView mTextViewTitle, mTextViewDesc, mTextviewGenre;
+        public TextView mTextViewTitle, mTextviewGenre;
         public ImageView mImageView;
 
         public LocalViewHolder(@NonNull View itemView) {

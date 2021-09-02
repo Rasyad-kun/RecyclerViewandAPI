@@ -1,9 +1,9 @@
 package com.example.recyclerviewandapi;
 
 public class Model {
-    private String mTitle, mDesc, mImage, mGenre, mRelease, mActors, mDirector, mCountry, mRating;
+    private String mTitle, mDesc, mImage, mGenre, mRelease, mActors, mDirector, mCountry, mRating, mImageLand;
 
-    public Model(String mTitle, String mDesc, String mGenre, String mImage, String mRelease, String mActors, String mDirector, String mCountry, String mRating) {
+    public Model(String mTitle, String mDesc, String mGenre, String mImage, String mRelease, String mActors, String mDirector, String mCountry, String mRating, String mImageLand) {
         this.mTitle = mTitle;
         this.mDesc = mDesc;
         this.mGenre = mGenre;
@@ -13,6 +13,7 @@ public class Model {
         this.mDirector = mDirector;
         this.mCountry = mCountry;
         this.mRating = mRating;
+        this.mImageLand = mImageLand;
     }
 
     public String getmTitle() {
@@ -49,5 +50,9 @@ public class Model {
 
     public String getmRating() {
         return mRating;
+    }
+
+    public String getmImageLand() {
+        return mImageLand;
     }
 }
